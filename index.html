@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masud Chatbot</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #1c1c1c;
+      color: #f5f5dc;
+      padding: 20px;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+    }
+    #chatbot-container {
+      display: none;
+      width: 100%;
+      max-width: 600px;
+      margin-top: 20px;
+      background-color: #282828;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border: 2px solid #daa520;
+    }
+    #start-menu {
+      text-align: center;
+      margin-top: 50px;
+    }
+    #command-input {
+      width: calc(100% - 24px);
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #daa520;
+      border-radius: 5px;
+      outline: none;
+      background-color: #333;
+      color: #f5f5dc;
+    }
+    #output {
+      margin: 20px 0;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #333;
+      color: #f5f5dc;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #daa520;
+      border: none;
+      border-radius: 5px;
+      color: #1c1c1c;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #b8860b;
+    }
+    a {
+      color: #daa520;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    ul {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+<div id="start-menu">
+  <h1>Welcome to Masud Chatbot</h1>
+  <p>Please enter the password to continue:</p>
+  <input type="password" id="password-input" placeholder="Enter password">
+  <button onclick="checkPassword()">Submit</button>
+</div>
+
+<div id="chatbot-container">
+  <h1>Masud Chatbot</h1>
+  <div id="output"></div>
+  <input type="text" id="command-input" placeholder="Enter your command here" onkeydown="if (event.keyCode == 13) { handleCommand(); }">
+</div>
+
+<script>
+  const correctPassword = '14414'; // Set your password here
+
+  function checkPassword() {
+    const inputPassword = document.getElementById('password-input').value;
+    if (inputPassword === correctPassword) {
+      document.getElementById('start-menu').style.display = 'none';
+      document.getElementById('chatbot-container').style.display = 'block';
+      document.getElementById('command-input').focus();
+    } else {
+      alert('Incorrect password. Please try again.');
+    }
+  }
+
+  function handleCommand() {
+    const input = document.getElementById('command-input').value.trim();
+    if (input.toLowerCase() === 'hey masud bro') {
+      document.getElementById('output').innerHTML = getGreetingResponse();
+    } else if (input.toLowerCase() === 'help') {
+      document.getElementById('output').innerHTML = getHelpResponse();
+    } else {
+      document.getElementById('output').innerHTML = processCommand(input);
+    }
+    document.getElementById('command-input').value = '';
+  }
+
+  function processCommand(command) {
+    const [action, ...params] = command.split(' ');
+    const parameter = params.join(' ');
+
+    switch (action.toLowerCase()) {
+      case 'open':
+        return `Opening ${parameter}... <a href="https://www.google.com/search?q=${encodeURIComponent(parameter)}" target="_blank">Click here</a> for more.`;
+      case 'search':
+        const [topic, app] = parameter.split(' on ');
+        return `Searching for ${topic} on ${app}... <a href="https://www.google.com/search?q=${encodeURIComponent(topic)}+site:${encodeURIComponent(app)}" target="_blank">Click here</a> for details.`;
+      case 'play':
+        return `Playing ${parameter}... <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'show-weather':
+        return `Showing weather for ${parameter}... <a href="https://www.google.com/search?q=weather+in+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'solve':
+        return `Solving ${parameter}... <a href="https://www.wolframalpha.com/input/?i=${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'solve-chemistry':
+        return `Solving chemistry equation ${parameter}... <a href="https://www.webqc.org/balance.php" target="_blank">Click here</a> for details.`;
+      case 'go-url':
+        return `Redirecting to ${parameter}... <a href="${parameter}" target="_blank">Click here</a> for details.`;
+      case 'ai-chat':
+        return `Redirecting to ChatGPT... <a href="https://chatgpt.com" target="_blank">Click here</a> for details.`;
+      case 'ai-pic':
+        return `Redirecting to Leonardo AI... <a href="https://leonardo.ai" target="_blank">Click here</a> for details.`;
+      case 'pic':
+        return `Redirecting to Lunapic... <a href="https://www7.lunapic.com/" target="_blank">Click here</a> for details.`;  
+      case 'convertio':
+        const [type1, type2] = parameter.split(' to ');
+        return `Redirecting to convertio.co for conversion from ${type1} to ${type2}... <a href="https://convertio.co/${encodeURIComponent(type1)}-to-${encodeURIComponent(type2)}/" target="_blank">Click here</a> for details.`;
+      case 'pcinstall':
+        return `Redirecting to getintopc to install ${parameter}... <a href="https://getintopc.com/?s=${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'minstallplay':
+        return `Redirecting to Google Play Store to install ${parameter}... <a href="https://play.google.com/store/search?q=${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'translate':
+        const [text, language] = parameter.split(' to ');
+        return `Translating "${text}" to ${language}... <a href="https://translate.google.com/?sl=auto&tl=${encodeURIComponent(language)}&text=${encodeURIComponent(text)}" target="_blank">Click here</a> for translation.`;
+      case 'tel':
+        return `Initiating a call with ${parameter}... <a href="tel:${parameter}">Click here</a>`;
+      case 'news':
+        return `Fetching news about ${parameter}... <a href="https://news.google.com/search?q=${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'currency':
+        const [amount, currency] = parameter.split(' to ');
+        return `Converting ${amount} to ${currency}... <a href="https://www.google.com/search?q=${encodeURIComponent(amount)}+to+${encodeURIComponent(currency)}" target="_blank">Click here</a> for details.`;
+      case 'wiki':
+        return `Fetching Wikipedia article about ${parameter}... <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'define':
+        return `Defining ${parameter}... <a href="https://www.google.com/search?q=define+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'stock':
+        return `Fetching stock information for ${parameter}... <a href="https://www.google.com/finance/quote/${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'tweet':
+        return `Fetching latest tweets from ${parameter}... <a href="https://twitter.com/${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'local-news':
+        return `Fetching local news for ${parameter}... <a href="https://www.google.com/search?q=local+news+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'recipe':
+        return `Fetching recipe for ${parameter}... <a href="https://www.google.com/search?q=recipe+for+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'restaurants':
+        return `Searching for restaurants in ${parameter}... <a href="https://www.google.com/maps/search/restaurants+in+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'events':
+        return `Finding events in ${parameter}... <a href="https://www.google.com/search?q=events+in+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'book-tickets':
+        return `Booking tickets for ${parameter}... <a href="https://www.google.com/search?q=book+tickets+for+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'reminder':
+        return `Setting a reminder for ${parameter}... <a href="https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'time':
+        return `Getting current time for ${parameter}... <a href="https://www.google.com/search?q=current+time+in+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'timer':
+        return `Setting a timer for ${parameter}... <a href="https://www.google.com/search?q=set+timer+for+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'alarm':
+        return `Setting an alarm for ${parameter}... <a href="https://www.google.com/search?q=set+alarm+for+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'calculator':
+        return `Opening calculator for ${parameter}... <a href="https://www.google.com/search?q=calculator+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'map':
+        return `Opening map for ${parameter}... <a href="https://www.google.com/maps/search/${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'directions':
+        return `Getting directions to ${parameter}... <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'distance':
+        return `Calculating distance between ${parameter}... <a href="https://www.google.com/search?q=distance+between+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'weather-forecast':
+        return `Fetching weather forecast for ${parameter}... <a href="https://www.google.com/search?q=weather+forecast+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'flight-status':       
+        return `Checking flight status for ${parameter}... <a href="https://www.google.com/search?q=flight+status+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'movie-info':
+        return `Fetching information about the movie ${parameter}... <a href="https://www.google.com/search?q=movie+info+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'lyrics':
+        return `Fetching lyrics for the song ${parameter}... <a href="https://www.google.com/search?q=lyrics+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'book-info':
+        return `Fetching information about the book ${parameter}... <a href="https://www.google.com/search?q=book+info+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'time':
+        return `Converting time to ${parameter}... <a href="https://www.google.com/search?q=time+in+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'convert':
+        return `Converting units... <a href="https://www.google.com/search?q=${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'convert-temperature':
+        return `Converting temperature... <a href="https://www.google.com/search?q=${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'nearby':
+        return `Finding nearby places... <a href="https://www.google.com/maps/search/${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'transportation':
+        return getTransportationOptions();
+      case 'set-reminder':
+        return `Setting a reminder for ${parameter}...`;
+      case 'date-difference':
+        return `Calculating date difference... <a href="https://www.google.com/search?q=date+difference+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'generate-password':
+        return `Generating a secure password... <a href="https://passwordsgenerator.net/" target="_blank">Click here</a> for details.`;
+      case 'set-timer':
+        return `Setting a timer for ${parameter}...`;
+      case 'public-holidays':
+        return `Fetching public holidays for ${parameter}... <a href="https://www.google.com/search?q=public+holidays+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'synonyms':
+        return `Finding synonyms for ${parameter}... <a href="https://www.google.com/search?q=synonyms+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'distance':
+        return `Calculating distance... <a href="https://www.google.com/search?q=distance+between+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'math-trivia':
+        return `Fetching math trivia... <a href="https://www.google.com/search?q=math+trivia" target="_blank">Click here</a> for details.`;
+      case 'quote':
+        return `Fetching a quote about ${parameter}... <a href="https://www.google.com/search?q=quote+about+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'advice':
+        return `Fetching advice about ${parameter}... <a href="https://www.google.com/search?q=advice+about+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'fact':
+        return `Fetching a fact about ${parameter}... <a href="https://www.google.com/search?q=fact+about+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'name-day':
+        return `Fetching name day information for ${parameter}... <a href="https://www.google.com/search?q=name+day+${encodeURIComponent(parameter)}" target="_blank">Click here</a> for details.`;
+      case 'global-services':
+        return getGlobalServices();
+      case 'tell-me-a-joke':
+        return `Here's a joke for you: Why don't scientists trust atoms? Because they make up everything!`;
+      case 'sing-a-song':
+        return `Singing a song: 🎶 Twinkle, twinkle, little star, how I wonder what you are! 🎶`;
+      case 'inspire-me':
+        return `Here's an inspirational quote: "The best time to plant a tree was 20 years ago. The second best time is now."`;
+      default:
+        return aiBasedResponse(command);
+    }
+  }
+
+  function getGreetingResponse() {
+    const greetings = [
+      "Hello! How can I assist you today?",
+      "Hi there! What can I do for you?",
+      "Hey! How can I help you?",
+      "Greetings! What do you need?",
+      "Hello! What’s on your mind?",
+      "Hello! I'm here to help. What do you need assistance with?"
+    ];
+    return greetings[Math.floor(Math.random() * greetings.length)];
+  }
+
+  function aiBasedResponse(message) {
+    const responses = [
+      `That's an interesting thought about "${message}". Tell me more.`,
+      `Why do you think "${message}"?`,
+      `How does "${message}" make you feel?`,
+      `Can you elaborate on "${message}"?`,
+      `I'd love to hear more about "${message}".`,
+      `Interesting topic! Tell me more about "${message}".`,
+      `"${message}" sounds intriguing. Could you share more details?`
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  function getTransportationOptions() {
+    return `
+      Here are some transportation options you can explore:
+      <ul>
+        <li><a href="https://www.uber.com" target="_blank">Uber</a></li>
+        <li><a href="https://www.lyft.com" target="_blank">Lyft</a></li>
+        <li><a href="https://www.airbnb.com" target="_blank">Airbnb</a></li>
+        <li><a href="https://www.booking.com" target="_blank">Booking.com</a></li>
+        <li><a href="https://www.kayak.com" target="_blank">Kayak</a></li>
+        <li><a href="https://www.skyscanner.com" target="_blank">Skyscanner</a></li>
+        <li><a href="https://www.expedia.com" target="_blank">Expedia</a></li>
+      </ul>`;
+  }
+
+  function getGlobalServices() {
+    return `
+      Here are some global services you can use:
+      <ul>
+        <li><a href="https://www.google.com" target="_blank">Google</a></li>
+        <li><a href="https://www.facebook.com" target="_blank">Facebook</a></li>
+        <li><a href="https://www.twitter.com" target="_blank">Twitter</a></li>
+        <li><a href="https://www.instagram.com" target="_blank">Instagram</a></li>
+        <li><a href="https://www.linkedin.com" target="_blank">LinkedIn</a></li>
+        <li><a href="https://www.whatsapp.com" target="_blank">WhatsApp</a></li>
+        <li><a href="https://www.tiktok.com" target="_blank">TikTok</a></li>
+      </ul>`;
+  }
+
+  function getHelpResponse() {
+    return `
+      <p>Download Manual:</p>
+     <li><a href="manual.txt" download>Download</a></li>`;
+  }
+
+</script>
+
+</body>
+</html>
